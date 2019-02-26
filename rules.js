@@ -1,54 +1,35 @@
+// false means kill, true means make alive
+
 export default {
-  one: (pix)=>{
+  one: (currentValue, surroundingSum) => {
 		// Any live cell with fewer than two live neighbors dies, as if by underpopulation.
-		var sum = getPixelValue(pix.x + 1, pix.y) + 
-      				getPixelValue(pix.x - 1, pix.y) +
-      				getPixelValue(pix.x, pix.y + 1) +
-      				getPixelValue(pix.x, pix.y - 1) + 
-							getPixelValue(pix.x + 1, pix.y - 1) +
-      				getPixelValue(pix.x - 1, pix.y + 1) +
-      				getPixelValue(pix.x - 1, pix.y - 1) +
-      				getPixelValue(pix.x + 1, pix.y + 1)
-							
-    return ( getPixelValue(pix.x, pix.y) == 1 && sum < 2) ? false : true
-  },
-	two: (pix)=>{
+		return (currentValue == 1 ? (surroundingSum < 2 ? 0 : 1) : currentValue)
+	},
+	two: (currentValue, surroundingSum) => {
 		// Any live cell with two or three live neighbors lives on to the next generation.
-		var sum = getPixelValue(pix.x + 1, pix.y) + 
-      				getPixelValue(pix.x - 1, pix.y) +
-							getPixelValue(pix.x, pix.y + 1) +
-							getPixelValue(pix.x, pix.y - 1) + 
-							getPixelValue(pix.x + 1, pix.y - 1) +
-							getPixelValue(pix.x - 1, pix.y + 1) +
-							getPixelValue(pix.x - 1, pix.y - 1) +
-							getPixelValue(pix.x + 1, pix.y + 1)
-								
-		return (getPixelValue(pix.x, pix.y) == 1 && (sum == 2 || sum == 3)) ? true : false
+		return (currentValue == 1 ? (surroundingSum == 2 || surroundingSum == 3 ? 1 : 0) : currentValue)
 	},
-	three: (pix)=>{
+	three: (currentValue, surroundingSum) => {
 		// Any live cell with more than three live neighbors dies, as if by overpopulation.
-		var sum = getPixelValue(pix.x + 1, pix.y) + 
-							getPixelValue(pix.x - 1, pix.y) +
-							getPixelValue(pix.x, pix.y + 1) +
-							getPixelValue(pix.x, pix.y - 1) + 
-							getPixelValue(pix.x + 1, pix.y - 1) +
-							getPixelValue(pix.x - 1, pix.y + 1) +
-							getPixelValue(pix.x - 1, pix.y - 1) +
-							getPixelValue(pix.x + 1, pix.y + 1)
-								
-		return (getPixelValue(pix.x, pix.y) == 1 && sum > 3) ? false : true
+		return (currentValue == 1 ? (surroundingSum > 3 ? 0 : 1) : currentValue)
 	},
-	four: (pix)=>{
+	four: (currentValue, surroundingSum) => {
 		// Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
-		var sum = getPixelValue(pix.x + 1, pix.y) + 
-							getPixelValue(pix.x - 1, pix.y) +
-							getPixelValue(pix.x, pix.y + 1) +
-							getPixelValue(pix.x, pix.y - 1) + 
-							getPixelValue(pix.x + 1, pix.y - 1) +
-							getPixelValue(pix.x - 1, pix.y + 1) +
-							getPixelValue(pix.x - 1, pix.y - 1) +
-							getPixelValue(pix.x + 1, pix.y + 1)
-								
-		return ( getPixelValue(pix.x, pix.y) == 0 && sum == 3) ? true : false
+		return (currentValue == 0 ? (surroundingSum == 3 ? 1 : 0) : currentValue)
 	}
 }
+
+// setTwo = {
+//   one: (currentValue, surroundingSum) => {
+// 		return (currentValue == 1 && surroundingSum < 2)
+// 	},
+// 	two: (currentValue, surroundingSum) => {
+// 		return (currentValue == 1 && (surroundingSum == 2 || surroundingSum == 3))
+// 	},
+// 	three: (currentValue, surroundingSum) => {
+// 		return (currentValue == 1 && surroundingSum > 3)
+// 	},
+// 	four: (currentValue, surroundingSum) => {
+// 		return (currentValue == 0 && surroundingSum == 3)
+// 	}
+// }
